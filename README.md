@@ -16,7 +16,7 @@ A Notion and Trello style workspace for small teams. Create a workspace, plan wo
 Vercel serverless functions cannot hold WebSocket connections, so this app syncs with polling. The trade-off is a delay of a few seconds instead of instant pushes. Swapping the polling hook for a WebSocket or Server-Sent Events service would not change the data model.
 
 ## API
-One serverless function (`api/[...path].js`) routes every request, because the free Vercel plan limits a deployment to 12 functions.
+One serverless function (`api/index.js`) routes every request, because the free Vercel plan limits a deployment to 12 functions.
 
 | Area | Endpoints |
 |---|---|

@@ -88,7 +88,10 @@ function createApp({ app, dbName, setup }) {
     handler: async (req, res) => {
       try {
         const url = new URL(req.url, "http://localhost");
-        const path = url.pathname.replace(/^\/api/, "") || "/";
+        // vercel.json rewrites /api/* to /api/index?__p=<path>; direct calls (tests, local server) use the URL path.
+        const rewritten = url.searchParams.get("__p");
+        url.searchParams.delete("__p");
+        const path = rewritten !== null ? `/${rewritten.replace(/^\/+/, "")}` : url.pathname.replace(/^\/api/, "") || "/";
         const route = routes.find((r) => r.method === req.method && r.re.test(path));
         if (!route) {
           if (routes.some((r) => r.re.test(path))) throw new HttpError(405, "Method not allowed.");
